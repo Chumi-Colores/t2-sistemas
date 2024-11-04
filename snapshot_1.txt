@@ -1,0 +1,20 @@
+0:
+stateatRecord: [0 1 0]
+messageatRecord: [0 0 0]
+ajoatRecord: false
+channelatRecord: [0 0 0]
+ajoatMarker: [false -1]
+
+1:
+stateatRecord: [0 0 0]
+messageatRecord: [1 0 0]
+ajoatRecord: false
+channelatRecord: [0 0 1]
+ajoatMarker: [true 0]
+
+2:
+stateatRecord: [0 1 0]
+messageatRecord: [0 0 0]
+ajoatRecord: false
+channelatRecord: [0 0 0]
+ajoatMarker: [false -1]

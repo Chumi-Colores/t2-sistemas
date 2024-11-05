@@ -1,7 +1,6 @@
 package body
 
 import (
-	"fmt"
 	"main/global"
 	"time"
 )
@@ -30,7 +29,6 @@ func brain_command_handler(command global.Command_data, neural_net global.Body_c
 		what_to_say_channel <- command
 		<-neural_net.Finished_task_channel
 	case 1: // 1: RECEIVE
-		fmt.Println(command.Participant_id, "is receiving from", command.Value)
 		who_to_listen_channel <- command
 		<-neural_net.Finished_task_channel
 	case 2: // 2: WAIT
@@ -38,12 +36,9 @@ func brain_command_handler(command global.Command_data, neural_net global.Body_c
 		wait_seconds(seconds)
 	case 3: // 3: SNAPSHOT
 		snapshot_id := command.Value
-		neural_net.When_to_remember_channel <- command
-		<-neural_net.Finished_task_channel
 		for i := range global.Command_channels {
 			if i != command.Participant_id {
-				fmt.Println(command.Participant_id, "sending marker to", i, "for snapshot", snapshot_id)
-				global.Food_channels[i] <- global.Food{Name: "marker", Id: snapshot_id}
+				global.Food_channels[i] <- global.Food{Name: "marker", Id: snapshot_id, Sender: command.Participant_id}
 			}
 		}
 	}

@@ -68,9 +68,13 @@ func participant(id int) {
 
 	last_said := make([]int, len(global.Command_channels))
 	last_listened := make([]int, len(global.Command_channels))
+	food_listened_too_early := make([][]global.Food, len(global.Command_channels))
+	for i := range food_listened_too_early {
+		food_listened_too_early[i] = make([]global.Food, 0)
+	}
 
 	go body.Mouth(what_to_say_channel, last_said, finished_task_channel)
-	go body.Ear(who_to_listen_channel, neural_net, last_listened)
+	go body.Ear(who_to_listen_channel, neural_net, last_listened, food_listened_too_early)
 	go body.Brain(global.Command_channels[id], neural_net)
 	go body.Memory(when_to_remember_channel, neural_net, snapshots, last_said, last_listened, id)
 }

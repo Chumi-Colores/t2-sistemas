@@ -34,6 +34,7 @@ type Snapshot_to_write struct {
 }
 
 type Food struct {
-	Name string
-	Id   int
+	Name   string
+	Id     int
+	Sender int
 }

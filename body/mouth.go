@@ -24,9 +24,9 @@ func mouth_command_handler(command global.Command_data, last_said []int) {
 
 	if global.Garlic_owner == my_id {
 		global.Garlic_owner = -1
-		global.Food_channels[food_receiver] <- global.Food{Name: "garlic", Id: my_id}
+		global.Food_channels[food_receiver] <- global.Food{Name: "garlic", Id: my_id, Sender: my_id}
 	} else {
-		global.Food_channels[food_receiver] <- global.Food{Name: "candy", Id: my_id}
+		global.Food_channels[food_receiver] <- global.Food{Name: "candy", Id: my_id, Sender: my_id}
 	}
 	last_said[food_receiver]++
 }

@@ -12,14 +12,14 @@ func Ear(who_to_listen_channel chan global.Command_data, neural_net global.Body_
 		if !ok {
 			commands_left = false
 		} else {
-			ear_command_handler(command, neural_net, last_listened, food_listened_too_early)
+			ear_command_handler(command, neural_net, food_listened_too_early)
 			neural_net.Finished_task_channel <- true
 		}
 	}
 	close(neural_net.When_to_remember_channel)
 }
 
-func ear_command_handler(command global.Command_data, neural_net global.Body_channels, last_listened []int, food_listened_too_early [][]global.Food) {
+func ear_command_handler(command global.Command_data, neural_net global.Body_channels, food_listened_too_early [][]global.Food) {
 	my_id := command.Participant_id
 	expected_sender := command.Value
 	when_to_remember_channel := neural_net.When_to_remember_channel
@@ -46,9 +46,9 @@ func ear_command_handler(command global.Command_data, neural_net global.Body_cha
 		when_to_remember_channel <- global.Command_data{Participant_id: expected_sender, Action: 1, Value: 0}
 		<-neural_net.Second_finished_task_channel
 		global.Garlic_owner = my_id
-		last_listened[expected_sender]++
 	} else if real_food.Name == "candy" {
-		last_listened[expected_sender]++
+		when_to_remember_channel <- global.Command_data{Participant_id: expected_sender, Action: -1, Value: real_food.Id}
+		// do nothing
 	} else if real_food.Name == "marker" {
 		when_to_remember_channel <- global.Command_data{Participant_id: expected_sender, Action: 0, Value: real_food.Id}
 		<-neural_net.Second_finished_task_channel

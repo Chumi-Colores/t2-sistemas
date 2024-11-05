@@ -27,9 +27,12 @@ func Memory(when_to_remember_channel chan global.Command_data, neural_net global
 
 func memory_command_handler(message global.Command_data, neural_net global.Body_channels, snapshots map[int]*global.Snapshot, last_sent []int, last_listened []int, my_id int) {
 	message_sender := message.Participant_id
-	garlic_or_marker := message.Action // 1: garlic, else: marker
+	candy_or_garlic_or_marker := message.Action // 1: garlic, 0: marker, -1: candy
 
-	if garlic_or_marker == 1 { // this message came because of a garlic
+	if candy_or_garlic_or_marker == -1 { // this message came because of a candy
+		last_listened[message_sender]++
+	} else if candy_or_garlic_or_marker == 1 { // this message came because of a garlic
+		last_listened[message_sender]++
 		for _, snapshot := range snapshots {
 			if !snapshot.Ajo_allready_received {
 				snapshot.Ajo_at_marker = [2]int{1, message_sender}
